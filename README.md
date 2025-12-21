@@ -68,4 +68,50 @@ NaN.  Отдаёт вам JSON с списком дней и их статусо
     
 -   **Хранилище**: PostgreSQL/SQLite (для истории и настроек).
     
--   **Зависимости**: `fastapi`, `httpx`, `beautifulsoup4`, `redis`.
+-   **Зависимости**: `fastapi`, `pydantic`
+- в разработке `httpx`, `beautifulsoup4`, `redis`.
+    
+
+## Как начать
+
+NaN.  Установите зависимости:
+    
+    ```
+    pip install -r requirements.txt
+    
+    ```
+    
+NaN.  Настройте `.env` (укажите ключи API, адреса источников).
+    
+NaN.  Запустите:
+    
+    ```
+    uvicorn main:app --host 0.0.0.0 --port 8000
+    
+    ```
+    
+NaN.  Отправьте запрос:
+    
+    ```
+    curl "http://localhost:8000/calendar?start_date=2025-01-01&end_date=2025-01-07"
+     ```
+    
+
+## Примеры запросов
+
+-   **Получить календарь на период**:
+    
+    ```
+    GET /calendar?start_date=2025-01-01&end_date=2025-01-31
+    ```
+    
+-   **Проверить, рабочий ли день**:
+    
+    ```
+    GET /is-working-day/2025-01-10
+    ```
+    
+
+## Лицензия
+
+[Укажите вашу лицензию, например, MIT]
