@@ -33,7 +33,7 @@
 - **Интерфейс**: REST API (например, `GET /calendar?start=2025-01-01&end=2025-01-31`).  
 - **Кэш**: Redis (ускоряет ответы и снижает нагрузку).  
 - **Хранилище**: PostgreSQL/SQLite (для истории и настроек).  
-- **Зависимости**: `fastapi`, `httpx`, `beautifulsoup4`, `redis`.
+- **Зависимости**: `fastapi`, `alembic`, `httpx`, `beautifulsoup4`, `redis`.
 
 ## Настройка окружения
 
