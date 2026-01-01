@@ -33,6 +33,7 @@ WorkCalendarClient — сервис для получения информаци
     uvicorn app:app --host 0.0.0.0 --port 8000
 """
 
+from app.core import settings
 from .main import app
 
-__all__ = ['app']
+__all__ = ['app', 'settings']
