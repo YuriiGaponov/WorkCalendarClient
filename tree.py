@@ -78,7 +78,9 @@ def print_tree(startpath, prefix='', script_name=None, show_hidden=False):
         if (entry == script_name or
             entry == 'venv' or
             entry == 'structure.txt' or
-            entry == '.git'):
+            entry == '.git' or
+            entry == '__pycache__' or
+            entry == '.pytest_cache'):
             continue
 
         # Скрытые файлы показываем только если show_hidden=True
