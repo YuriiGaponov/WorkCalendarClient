@@ -12,6 +12,9 @@
 Экспортируемые объекты:
 - Base — декларативная база SQLAlchemy из app.core.db.
   Используется для создания моделей БД.
+- engine — объект подключения SQLAlchemy к БД.
+- run_migrations — функция из app.core.alembic_runner.
+  Применяет миграции Alembic при старте приложения.
 - settings — экземпляр настроек из app.core.settings.
   Содержит параметры конфигурации из .env‑файлов.
 
@@ -25,7 +28,8 @@
 - при расширении пакета дополняйте список импортов и __all__.
 """
 
-from .db import Base
+from .alembic_runner import run_migrations
+from .db import Base, engine
 from .settings import settings
 
-__all__ = ['Base', 'settings']
+__all__ = ['Base', 'engine', 'run_migrations','settings']
