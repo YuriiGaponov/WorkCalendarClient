@@ -70,12 +70,12 @@ CACHE_TTL=86400
 
    Для разработки:  
    ```bash
-   uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+   uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
    ```  
 
    Для production (с указанием окружения):  
    ```bash
-   ENV_FILE=.env.production uvicorn main:app --host 0.0.0.0 --port 8000
+   ENV_FILE=.env.production uvicorn app.main:app --host 0.0.0.0 --port 8000
    ```
 
 4. **Проверьте работу**  
