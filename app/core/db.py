@@ -38,8 +38,10 @@
 - корректная настройка подключения к БД в другом модуле (например, через `create_engine`).
 """
 
-from sqlalchemy import Column, Integer
+from sqlalchemy import Column, Integer, create_engine
 from sqlalchemy.orm import declared_attr, declarative_base
+
+from .settings import settings
 
 
 class PreBase:
@@ -60,3 +62,16 @@ class PreBase:
     id = Column(Integer, primary_key=True)
 
 Base = declarative_base(cls=PreBase)
+"""
+Декларативная база для моделей SQLAlchemy.
+
+Наследует параметры от `PreBase`, включая автоматическое имя таблицы
+и поле `id`. Используется как родительский класс для всех моделей БД.
+"""
+
+engine = create_engine(settings.DATABASE_URL)
+"""
+Объект движка SQLAlchemy для подключения к БД.
+
+Инициализирован на основе строки подключения из настроек приложения.
+"""
