@@ -23,8 +23,6 @@ WorkCalendarClient — сервис для получения информаци
 Экспорт:
 - app — основной экземпляр приложения FastAPI, готовый к запуску;
 - Base — декларативная база SQLAlchemy для моделей БД;
-- engine — объект подключения SQLAlchemy к БД;
-- settings — экземпляр настроек приложения из .env‑файлов.
 
 Использование:
 После импорта модуля доступен экземпляр `app`, который можно
@@ -35,7 +33,7 @@ WorkCalendarClient — сервис для получения информаци
     uvicorn app:app --host 0.0.0.0 --port 8000
 """
 
-from app.core import Base, engine, settings
+from app.core import Base
 from .main import app
 
-__all__ = ['app', 'Base', 'engine','settings']
+__all__ = ['app', 'Base']
