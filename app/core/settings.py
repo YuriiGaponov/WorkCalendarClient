@@ -45,19 +45,28 @@
 
 
 import os
+from pathlib import Path
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
-env_mode = os.getenv('ENVIRONMENT', 'development')
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+"""Корневая директория проекта (подъём на 3 уровня)."""
+
+DATA_DIR = BASE_DIR / "data"
+"""Директория для данных приложения."""
+
+ENV_MODE = os.getenv('ENVIRONMENT', 'development')
+"""Режим окружения: из ENVIRONMENT или 'development' по умолчанию."""
 
 class Settings(BaseSettings):
     """Модель настроек приложения с автоматической валидацией."""
 
-    ENVIRONMENT: str = env_mode
-    DATABASE_URL: str
+    
+    ENVIRONMENT: str = ENV_MODE
+    DATABASE_URL: str = f"sqlite:///{DATA_DIR / 'db.sqlite3'}"
 
     model_config = SettingsConfigDict(
-        env_file=f".env.{env_mode}",
+        env_file=BASE_DIR / f".env.{ENV_MODE}",
         env_file_encoding="utf-8",
         case_sensitive=False  # регистр не имеет значения для имён переменных
     )
