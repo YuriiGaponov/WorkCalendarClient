@@ -63,7 +63,14 @@ class Settings(BaseSettings):
 
     
     ENVIRONMENT: str = ENV_MODE
+    
     DATABASE_URL: str = f"sqlite:///{DATA_DIR / 'db.sqlite3'}"
+
+    ENCODING: str = 'utf-8'
+    
+    LOG_DIR: str = f"{DATA_DIR / 'log'}"
+    LOG_MAX_BYTES: int = 1000000
+    LOG_BACKUP_COUNT: int = 0
 
     model_config = SettingsConfigDict(
         env_file=BASE_DIR / f".env.{ENV_MODE}",
