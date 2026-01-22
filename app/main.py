@@ -41,10 +41,9 @@
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
-from app.core import run_migrations, engine, get_logger
+from app.core import run_migrations, engine, main_logger
 from app.routes import router
 
-# main_logger = get_logger()
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -56,17 +55,10 @@ async def lifespan(app: FastAPI):
     - запуск миграций Alembic при старте;
     """
     import app.models.calendar
-    main_logger = get_logger()
-    # Выполняется при запуске
-    # print("Запуск миграций Alembic...") # заменить на logger
     main_logger.info("Запуск миграций Alembic...")
-    # run_migrations()
     run_migrations(engine)
-    # print("Миграции применены.") # заменить на logger
     main_logger.info("Миграции применены.")
     yield
-    # Здесь можно добавить код при завершении (опционально)
-    # print("Приложение завершает работу.") # заменить на logger
     main_logger.info("Приложение завершает работу.")
 
 app = FastAPI(lifespan=lifespan)

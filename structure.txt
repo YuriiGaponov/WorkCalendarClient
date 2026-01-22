@@ -1,13 +1,11 @@
 WorkCalendarClient
-    ├── .env.development
-    ├── .env.example
-    ├── .gitignore
     ├── README.md
     ├── alembic
     │   ├── README
     │   ├── env.py
     │   ├── script.py.mako
     │   └── versions
+    │       ├── 6884d1fcf1c6_add_calendarday.py
     ├── alembic.ini
     ├── app
     │   ├── __init__.py
@@ -15,6 +13,7 @@ WorkCalendarClient
     │   │   ├── __init__.py
     │   │   ├── alembic_runner.py
     │   │   ├── db.py
+    │   │   ├── logger.py
     │   │   └── settings.py
     │   ├── main.py
     │   ├── models
@@ -24,9 +23,13 @@ WorkCalendarClient
     │       ├── __init__.py
     │       └── interfaces.py
     ├── data
-    │   └── __init__.py
+    │   ├── __init__.py
+    │   ├── db.sqlite3
+    │   └── log
+    │       ├── __init__.py
     ├── requirements.txt
     ├── tests
     │   ├── __init__.py
     │   ├── conftest.py
-    │   └── test_interfase.py
+    │   ├── test_interfase.py
+    │   └── test_migrations.py

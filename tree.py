@@ -80,6 +80,7 @@ def print_tree(startpath, prefix='', script_name=None, show_hidden=False):
             entry == 'structure.txt' or
             entry == '.git' or
             entry == '__pycache__' or
+            entry == 'main.log' or
             entry == '.pytest_cache'):
             continue
 
