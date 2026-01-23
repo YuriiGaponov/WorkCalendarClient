@@ -31,6 +31,8 @@
 from .alembic_runner import run_migrations
 from .db import Base, engine
 from .logger import main_logger
-from .settings import settings
+from .settings import settings, templates
 
-__all__ = ['Base', 'engine', 'main_logger', 'run_migrations','settings']
+__all__ = [
+    'Base', 'engine', 'main_logger', 'run_migrations','settings', 'templates'
+]
