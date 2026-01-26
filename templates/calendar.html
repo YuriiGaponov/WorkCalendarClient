@@ -56,7 +56,7 @@
 <body>
     <div class="container">
         <h1>Скачать производственный календарь</h1>
-        <form id="calendarForm" action="/download-calendar" method="POST">
+        <form id="calendarForm" action="/get-calendar" method="POST">
             <div class="form-group">
                 <label for="sourceSelect">Выберите источник календаря:</label>
                 <select id="sourceSelect" name="source" required>
@@ -77,7 +77,7 @@
                 </select>
             </div>
 
-            <button type="submit">Скачать календарь</button>
+            <button type="submit">Отправить данные</button>
         </form>
     </div>
 
@@ -101,8 +101,8 @@
                     return;
                 }
 
-                // Отправляем данные на сервер для обработки
-                fetch('/download-calendar', {
+                // Отправляем данные на сервер для обработки (без скачивания PDF)
+                fetch('/get-calendar', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
@@ -111,25 +111,14 @@
                 })
                 .then(response => {
                     if (response.ok) {
-                        return response.blob();
+                        alert('Данные успешно отправлены на сервер!');
                     } else {
-                        throw new Error('Ошибка при загрузке календаря');
+                        throw new Error('Ошибка при отправке данных');
                     }
-                })
-                .then(blob => {
-                    const url = window.URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.style.display = 'none';
-                    a.href = url;
-                    a.download = `calendar_${selectedSource}_${selectedYear}.pdf`; // формат: calendar_источник_год.pdf
-                    document.body.appendChild(a);
-                    a.click();
-                    window.URL.revokeObjectURL(url);
-                    alert('Календарь успешно загружен!');
                 })
                 .catch(error => {
                     console.error('Ошибка:', error);
-                    alert('Не удалось скачать календарь. Попробуйте ещё раз.');
+                    alert('Не удалось отправить данные. Попробуйте ещё раз.');
                 });
             });
         });

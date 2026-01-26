@@ -32,5 +32,6 @@
 """
 
 from .settings import CalendarSettings
+from .services import calendar_service
 
-__all__ = ['CalendarSettings']
+__all__ = ['CalendarSettings', 'calendar_service']

@@ -19,6 +19,7 @@
 Определённые маршруты:
 - GET / — главная страница сервиса. Рендерит index.html.
 - GET /calendar — страница календаря. Рендерит calendar.html с параметрами.
+- POST /get-calendar — получает данные календаря по выбранному источнику и году.
 
 
 Пример подключения:
@@ -32,10 +33,10 @@
 - Рекомендуется вынести шаблоны (index.html, calendar.html) в отдельную директорию templates/.
 """
 
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Request, Form
 
 from app.core import templates
-from app.calendar import CalendarSettings
+from app.calendar import CalendarSettings, calendar_service
 
 
 router = APIRouter()
@@ -87,3 +88,37 @@ def calendar_page(request: Request):
     }
 
     return templates.TemplateResponse(request, "calendar.html", context)
+
+@router.post("/get-calendar")
+async def get_calendar(request: Request, source: str = Form(), year: int = Form()):
+    """
+    Получить календарь для указанного источника и года.
+
+    Endpoint обрабатывает POST-запрос для генерации календаря на заданный год
+    с учётом указанного источника данных.
+
+    Args:
+        request (Request): Объект запроса FastAPI, содержащий метаинформацию о запросе.
+        source (str): Источник данных для формирования календаря. 
+            Передаётся в форме (Form data).
+        year (int): Год, для которого требуется сгенерировать календарь. 
+            Передаётся в форме (Form data).
+
+    Returns:
+        Результат выполнения сервиса calendar_service. Точный тип возврата 
+        зависит от реализации calendar_service.
+
+    Raises:
+        Возможные исключения определяются логикой calendar_service.
+        Обычно могут возникать:
+        - ValueError: при некорректных входных данных (например, недопустимый год).
+        - Exception: при ошибках взаимодействия с источником данных.
+
+    Example:
+        POST /get-calendar
+        Form data:
+            source="example_source"
+            year=2025
+    """
+    await calendar_service(source, year)
+
