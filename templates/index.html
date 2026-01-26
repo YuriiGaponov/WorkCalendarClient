@@ -66,31 +66,6 @@
             margin-bottom: 8px;
         }
 
-        .code-block {
-            background-color: #f5f5f5;
-            border-left: 4px solid #3498db;
-            padding: 12px 15px;
-            font-family: 'Courier New', monospace;
-            overflow-x: auto;
-            margin: 15px 0;
-            font-size: 0.95rem;
-        }
-
-        .tech-stack {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .tech-tag {
-            background-color: #e8f4f8;
-            color: #2980b9;
-            padding: 5px 12px;
-            border-radius: 4px;
-            font-size: 0.9rem;
-        }
-
         footer {
             text-align: center;
             margin-top: 40px;
@@ -115,14 +90,6 @@
 
         .btn:hover {
             background-color: #2980b9;
-        }
-
-        #calendar-result {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #f0f7ff;
-            border-left: 4px solid #3498db;
-            display: none;
         }
 
         @media (max-width: 768px) {
@@ -168,47 +135,14 @@
         </section>
 
         <section>
-            <h2>Получить производственный календарь</h2>
-            <p>Выберите год и нажмите кнопку, чтобы получить календарь рабочих дней.</p>
-            <select id="year-selector" style="margin: 10px 0; padding: 8px; font-size: 1rem;">
-                <option value="2025">2025</option>
-                <option value="2026">2026</option>
-            </select>
-            <button class="btn" onclick="fetchCalendar()">Получить календарь</button>
-            <div id="calendar-result"></div>
+            <h2>Производственный календарь</h2>
+            <p>Нажмите кнопку ниже, чтобы перейти к производственному календарю.</p>
+            <button class="btn" onclick="window.location.href='/calendar'">Получить календарь</button>
         </section>
 
         <footer>
             <p>© 2024 WorkCalendarClient. Все права защищены.</p>
         </footer>
     </div>
-
-    <script>
-        async function fetchCalendar() {
-            const year = document.getElementById('year-selector').value;
-            const resultDiv = document.getElementById('calendar-result');
-
-            try {
-                const response = await fetch(`/api/calendar/${year}`);
-                if (!response.ok) {
-                    throw new Error('Ошибка при получении данных');
-                }
-                const data = await response.json();
-
-                // Формируем вывод (пример: список рабочих дней)
-                let html = `<h3>Производственный календарь на ${year}</h3><ul>`;
-                data.workingDays.forEach(day => {
-                    html += `<li>${day}</li>`;
-                });
-                html += `</ul>`;
-
-                resultDiv.innerHTML = html;
-                resultDiv.style.display = 'block';
-            } catch (error) {
-                resultDiv.innerHTML = `<p style="color: red;">Ошибка: ${error.message}</p>`;
-                resultDiv.style.display = 'block';
-            }
-        }
-    </script>
 </body>
 </html>

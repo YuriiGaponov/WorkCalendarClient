@@ -5,7 +5,8 @@ WorkCalendarClient.
 
 Содержит тестовые сценарии для проверки основных эндпоинтов приложения:
 - доступность корневого маршрута;
-- обработку несуществующих маршрутов (404).
+- обработку несуществующих маршрутов (404);
+- доступность маршрута /calendar.
 
 Используемые компоненты:
 - pytest — фреймворк для запуска тестов;
@@ -44,3 +45,10 @@ class TestInterface:
         """
         response = self.client.get("/unknown")
         assert response.status_code == 404
+    
+    def test_root_endpoint_returns_200(self):
+        """
+        Проверяет, что эндпоинт получения календаря возвращает статус 200.
+        """
+        response = self.client.get("/calendar")
+        assert response.status_code == 200

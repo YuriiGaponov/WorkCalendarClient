@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Скачать производственный календарь</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Скачать производственный календарь</h1>
+        <form id="calendarForm" action="/download-calendar" method="POST">
+            <div class="form-group">
+                <label for="sourceSelect">Выберите источник календаря:</label>
+                <select id="sourceSelect" name="source" required>
+                    <option value="">-- Выберите источник --</option>
+                    {% for key, label in sources.items() %}
+                    <option value="{{ key }}">{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="yearSelect">Выберите год:</label>
+                <select id="yearSelect" name="year" required>
+                    <option value="">-- Выберите год --</option>
+                    {% for year in years %}
+                    <option value="{{ year }}">{{ year }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <button type="submit">Скачать календарь</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('calendarForm');
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const selectedSource = document.getElementById('sourceSelect').value;
+                const selectedYear = document.getElementById('yearSelect').value;
+
+                if (!selectedSource) {
+                    alert('Пожалуйста, выберите источник календаря.');
+                    return;
+                }
+
+                if (!selectedYear) {
+                    alert('Пожалуйста, выберите год.');
+                    return;
+                }
+
+                // Отправляем данные на сервер для обработки
+                fetch('/download-calendar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `source=${encodeURIComponent(selectedSource)}&year=${encodeURIComponent(selectedYear)}`
+                })
+                .then(response => {
+                    if (response.ok) {
+                        return response.blob();
+                    } else {
+                        throw new Error('Ошибка при загрузке календаря');
+                    }
+                })
+                .then(blob => {
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.style.display = 'none';
+                    a.href = url;
+                    a.download = `calendar_${selectedSource}_${selectedYear}.pdf`; // формат: calendar_источник_год.pdf
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    alert('Календарь успешно загружен!');
+                })
+                .catch(error => {
+                    console.error('Ошибка:', error);
+                    alert('Не удалось скачать календарь. Попробуйте ещё раз.');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
