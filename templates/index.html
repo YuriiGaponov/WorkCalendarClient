@@ -100,6 +100,31 @@
             padding-top: 20px;
         }
 
+        .btn {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            text-decoration: none;
+            margin-top: 15px;
+        }
+
+        .btn:hover {
+            background-color: #2980b9;
+        }
+
+        #calendar-result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f0f7ff;
+            border-left: 4px solid #3498db;
+            display: none;
+        }
+
         @media (max-width: 768px) {
             .container {
                 padding: 15px;
@@ -143,29 +168,47 @@
         </section>
 
         <section>
-            <h2>Быстрый старт</h2>
-            <ol>
-                <li>Настройте окружение через <code>.env</code>-файл.</li>
-                <li>Установите зависимости: <div class="code-block">pip install -r requirements.txt</div></li>
-                <li>Запустите сервер: <div class="code-block">uvicorn app.main:app --host 0.0.0.0 --port 8000</div></li>
-                <li>Отправьте запрос: <div class="code-block">curl "http://localhost:8000/is-working-day/2025-01-10"</div></li>
-            </ol>
-        </section>
-
-        <section>
-            <h2>Технологии</h2>
-            <div class="tech-stack">
-                <span class="tech-tag">Python</span>
-                <span class="tech-tag">FastAPI</span>
-                <span class="tech-tag">Redis</span>
-                <span class="tech-tag">PostgreSQL/SQLite</span>
-                <span class="tech-tag">Alembic</span>
-            </div>
+            <h2>Получить производственный календарь</h2>
+            <p>Выберите год и нажмите кнопку, чтобы получить календарь рабочих дней.</p>
+            <select id="year-selector" style="margin: 10px 0; padding: 8px; font-size: 1rem;">
+                <option value="2025">2025</option>
+                <option value="2026">2026</option>
+            </select>
+            <button class="btn" onclick="fetchCalendar()">Получить календарь</button>
+            <div id="calendar-result"></div>
         </section>
 
         <footer>
             <p>© 2024 WorkCalendarClient. Все права защищены.</p>
         </footer>
     </div>
+
+    <script>
+        async function fetchCalendar() {
+            const year = document.getElementById('year-selector').value;
+            const resultDiv = document.getElementById('calendar-result');
+
+            try {
+                const response = await fetch(`/api/calendar/${year}`);
+                if (!response.ok) {
+                    throw new Error('Ошибка при получении данных');
+                }
+                const data = await response.json();
+
+                // Формируем вывод (пример: список рабочих дней)
+                let html = `<h3>Производственный календарь на ${year}</h3><ul>`;
+                data.workingDays.forEach(day => {
+                    html += `<li>${day}</li>`;
+                });
+                html += `</ul>`;
+
+                resultDiv.innerHTML = html;
+                resultDiv.style.display = 'block';
+            } catch (error) {
+                resultDiv.innerHTML = `<p style="color: red;">Ошибка: ${error.message}</p>`;
+                resultDiv.style.display = 'block';
+            }
+        }
+    </script>
 </body>
 </html>

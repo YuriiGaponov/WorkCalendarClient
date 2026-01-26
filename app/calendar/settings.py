@@ -1,0 +1,2 @@
+MIN_YEAR: int = 2025
+MAX_YEAR: int = 2026
