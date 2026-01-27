@@ -12,7 +12,8 @@ WorkCalendarClient
     │   ├── calendar
     │   │   ├── __init__.py
     │   │   ├── services.py
-    │   │   └── settings.py
+    │   │   ├── settings.py
+    │   │   └── validators.py
     │   ├── core
     │   │   ├── __init__.py
     │   │   ├── alembic_runner.py
