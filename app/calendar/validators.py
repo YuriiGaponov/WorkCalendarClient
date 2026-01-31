@@ -7,7 +7,7 @@
 from .settings import CalendarSettings
 
 
-async def validate_get_calendar_data(source, year) -> None:
+def validate_get_calendar_data(source, year) -> None:
     """
     Проверяет корректность параметров для получения календарных данных.
 

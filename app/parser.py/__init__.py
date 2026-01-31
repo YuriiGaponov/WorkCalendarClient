@@ -1,3 +1,0 @@
-"""
-Пакет WorkCalendarClient.app.parser
-"""
