@@ -6,6 +6,8 @@ def calendar_service(source: str, year: int):
         validate_get_calendar_data(source, year)
         print(f'Источник: {source}, год: {year}')
         parser = ConsultantPlusParser(year)
-        parser.get_calendar_data()
+        # parser.get_calendar_data()
+        for content in parser.get_calendar_data():
+            print(content)
     except (TypeError, ValueError) as e:
         print(f"Ошибка валидации данных для скачивания календаря: {e}")
